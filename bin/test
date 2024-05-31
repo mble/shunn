@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+"$PWD"/test/bats/bin/bats "$PWD"/test

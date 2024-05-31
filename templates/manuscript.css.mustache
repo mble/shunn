@@ -1,0 +1,67 @@
+@page:first {
+	@top-right {
+		content: none;
+	}
+}
+
+@page {
+	size: {{{page_size}}};
+	margin: 1in;
+
+	@top-right {
+		content: "{{lastname}} / {{title}} / " counter(page);
+		font-family: {{{font_family}}};
+		font-size: 12pt !important;
+	}
+}
+
+body {
+	font-family: {{{font_family}}};
+}
+
+header {
+	text-align: center;
+	margin-top: 50%;
+	margin-bottom: 2em;
+}
+
+header > h1 {
+	font-size: 12pt !important;
+	font-weight: normal;
+}
+
+body > p {
+	text-indent: 0.5in;
+	font-size: 12pt !important;
+	text-align: left !important;
+	line-height: 2em !important;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+#address {
+	text-align: left;
+	overflow: wrap;
+}
+
+#address > p {
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+#wordcount {
+	text-align: right;
+	line-height: 0;
+}
+
+#wordcount > p {
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.two-column-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	justify-items: stretch;
+	align-items: baseline;
+}

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+infile=$1
+outfile=$2
+metadata_option=" "
+
+set -euo pipefail
+
+if [ -z "$infile" ]; then
+    echo "Usage: $0 <input> [outfile]"
+    exit 1
+fi
+
+if [ ! -f "$infile" ]; then
+    echo "File not found: $infile"
+    exit 1
+fi
+
+if [ -z "$outfile" ]; then
+    x=$(basename "$infile")
+    outfile="outputs/${x%.*}.pdf"
+fi
+
+if [ -f "metadata.yaml" ]; then
+    metadata_option="--metadata-file=metadata.yaml"
+fi
+
+bundle && \
+bundle exec ruby support/render.rb "$infile" && \
+bin/process "$infile" "$metadata_option" | weasyprint - "$outfile"
+

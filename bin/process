@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+infile=$1
+metadata_option=$2
+
+set -euo pipefail
+
+pandoc -f markdown+smart \
+    "$metadata_option" \
+    -L "$PWD/support/wordcount.lua" \
+    --strip-comments \
+    -t html \
+    --template "$PWD/templates/template.html5" \
+    -s "$infile" \
+    -c "$PWD/rendered/manuscript.css"

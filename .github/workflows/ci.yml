@@ -1,0 +1,43 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+      - run: bundle install
+      - name: install shellcheck
+        run: |
+          baseurl="https://github.com/koalaman/shellcheck/releases/download"
+          version=v0.10.0
+
+          curl -Lso "$PWD/sc.tar.xz" \
+            "${baseurl}/${version}/shellcheck-${version}.linux.x86_64.tar.xz"
+
+          tar -xf "$PWD/sc.tar.xz" -C "$PWD"
+          cp "$PWD/shellcheck-${version}/shellcheck" /usr/local/bin
+          rm -rf "shellcheck-${version}"
+
+          shellcheck --version
+      - run: bin/lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+      - uses: ruby/setup-ruby@v1
+      - run: bundle install
+      - run: ls -lah
+      - name: render templates
+        run: bundle exec ruby support/render.rb test/test_input.md test/test_metadata.yaml
+      - name: install pandoc
+        run: |
+          curl -Lso "$PWD/pandoc.deb" \
+            "https://github.com/jgm/pandoc/releases/download/3.2/pandoc-3.2-1-amd64.deb"
+
+          sudo dpkg -i $PWD/pandoc.deb
+
+          pandoc --version
+      - run: bin/test

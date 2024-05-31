@@ -1,0 +1,10 @@
+address:
+  - "123 Fake Street"
+  - "Anytown"
+  - "CO"
+  - "USA"
+  - "90210"
+firstname: "Edward Morgan"
+lastname: "Forster"
+byline: "by E. M. Forster"
+email: "e.m.forster@example.com"
